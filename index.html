@@ -1,0 +1,1000 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SoyVision AI — VIT Bhopal</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+:root{
+  --bg:#060e06;--bg2:#0c180c;--bg3:#111f11;
+  --surface:#162016;--surface2:#1e2e1e;
+  --border:rgba(61,186,94,0.15);--border2:rgba(61,186,94,0.28);
+  --accent:#3dba5e;--accent2:#a3e635;
+  --text:#e8f5e8;--text2:#9abf9a;--text3:#5c855c;
+  --red:#f87171;--amber:#fbbf24;--green:#4ade80;
+  --disease:#e879f9;--disease2:#c026d3;
+  --disease-border:rgba(232,121,249,0.2);--disease-border2:rgba(232,121,249,0.4);
+  --disease-surface:rgba(232,121,249,0.05);
+}
+html{scroll-behavior:smooth;}
+body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);overflow-x:hidden;}
+body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellipse at 80% 10%,rgba(61,186,94,0.07),transparent 60%),radial-gradient(ellipse at 10% 90%,rgba(163,230,53,0.04),transparent 50%);pointer-events:none;z-index:0;}
+::-webkit-scrollbar{width:4px;}
+::-webkit-scrollbar-thumb{background:var(--accent);border-radius:2px;}
+
+/* NAV */
+nav{position:fixed;top:0;left:0;right:0;z-index:100;height:64px;background:rgba(6,14,6,0.85);border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;padding:0 2rem;backdrop-filter:blur(20px);}
+.nav-logo{display:flex;align-items:center;gap:10px;text-decoration:none;}
+.nav-logo-sq{width:32px;height:32px;border-radius:8px;background:linear-gradient(135deg,var(--accent),var(--accent2));display:flex;align-items:center;justify-content:center;}
+.nav-logo-sq svg{width:16px;height:16px;stroke:#000;stroke-width:2.5;}
+.nav-logo-name{font-family:'Syne',sans-serif;font-size:1.125rem;font-weight:800;color:var(--text);}
+.nav-logo-name span{color:var(--accent);}
+.nav-links{display:flex;gap:2rem;list-style:none;}
+.nav-links a{color:var(--text3);font-size:0.875rem;text-decoration:none;transition:color 0.2s;}
+.nav-links a:hover{color:var(--text);}
+.nav-cta{background:var(--accent);color:#000;font-family:'Syne',sans-serif;font-weight:700;font-size:0.8125rem;padding:0.5rem 1.25rem;border-radius:8px;text-decoration:none;transition:opacity 0.2s;}
+.nav-cta:hover{opacity:0.85;}
+@media(max-width:768px){.nav-links{display:none;}}
+
+/* HERO */
+.hero{position:relative;z-index:1;min-height:100vh;display:flex;align-items:center;padding:8rem 2rem 4rem;border-bottom:1px solid var(--border);}
+.hero-inner{max-width:1100px;margin:0 auto;width:100%;display:grid;grid-template-columns:1.2fr 0.8fr;gap:4rem;align-items:center;}
+.hero-badge{display:inline-flex;align-items:center;gap:8px;background:rgba(61,186,94,0.1);border:1px solid var(--border2);border-radius:100px;padding:0.375rem 1rem;margin-bottom:1.75rem;font-size:0.8rem;color:var(--accent);}
+.badge-dot{width:6px;height:6px;border-radius:50%;background:var(--accent);animation:pulse 2s ease-in-out infinite;}
+@keyframes pulse{0%,100%{opacity:1;transform:scale(1);}50%{opacity:0.4;transform:scale(0.8);}}
+.hero h1{font-family:'Syne',sans-serif;font-size:clamp(2.75rem,6vw,5rem);font-weight:800;line-height:1.0;letter-spacing:-0.03em;margin-bottom:1.5rem;}
+.hero h1 .grad{background:linear-gradient(135deg,var(--accent),var(--accent2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
+.hero-sub{font-size:1.0625rem;color:var(--text2);line-height:1.75;margin-bottom:2.5rem;font-weight:300;max-width:500px;}
+.hero-btns{display:flex;gap:1rem;flex-wrap:wrap;}
+.btn-p{background:var(--accent);color:#000;font-family:'Syne',sans-serif;font-weight:700;font-size:0.9375rem;padding:0.875rem 2rem;border-radius:10px;text-decoration:none;border:none;cursor:pointer;transition:transform 0.2s,box-shadow 0.2s;display:inline-flex;align-items:center;gap:8px;}
+.btn-p:hover{transform:translateY(-2px);box-shadow:0 12px 40px rgba(61,186,94,0.3);}
+.btn-s{background:transparent;color:var(--text);border:1px solid var(--border2);font-family:'Syne',sans-serif;font-size:0.9375rem;padding:0.875rem 2rem;border-radius:10px;text-decoration:none;transition:all 0.2s;display:inline-flex;align-items:center;gap:8px;}
+.btn-s:hover{background:var(--surface);border-color:var(--accent);}
+.hero-stats{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--border);border:1px solid var(--border);border-radius:16px;overflow:hidden;}
+.hstat{background:var(--bg2);padding:1.5rem;transition:background 0.2s;}
+.hstat:hover{background:var(--surface);}
+.hstat-n{font-family:'Syne',sans-serif;font-size:2.25rem;font-weight:800;color:var(--text);line-height:1;}
+.hstat-n em{font-style:normal;color:var(--accent);font-size:1.25rem;}
+.hstat-l{font-size:0.75rem;color:var(--text3);margin-top:0.375rem;text-transform:uppercase;letter-spacing:0.08em;}
+@media(max-width:900px){.hero-inner{grid-template-columns:1fr;}.hero-stats{grid-template-columns:repeat(4,1fr);}}
+
+/* SECTION */
+.section{position:relative;z-index:1;max-width:1100px;margin:0 auto;padding:5rem 2rem;}
+.sec-tag{font-size:0.75rem;font-weight:600;letter-spacing:0.12em;text-transform:uppercase;color:var(--accent);margin-bottom:0.75rem;}
+.section h2{font-family:'Syne',sans-serif;font-size:clamp(1.75rem,3vw,2.5rem);font-weight:700;letter-spacing:-0.02em;margin-bottom:0.75rem;}
+.sec-sub{color:var(--text2);font-size:1rem;line-height:1.7;margin-bottom:3rem;max-width:520px;}
+.sec-divider{height:1px;background:var(--border);}
+
+/* ===================== TAB SWITCHER ===================== */
+.tab-switcher{display:flex;gap:0;background:var(--surface);border:1px solid var(--border);border-radius:14px;overflow:hidden;margin-bottom:2rem;padding:4px;gap:4px;}
+.tab-btn{flex:1;background:transparent;border:none;color:var(--text3);font-family:'Syne',sans-serif;font-size:0.9rem;font-weight:600;padding:0.875rem 1rem;cursor:pointer;transition:all 0.25s;border-radius:10px;display:flex;align-items:center;justify-content:center;gap:8px;}
+.tab-btn.active{background:var(--accent);color:#000;}
+.tab-btn.active.disease-tab{background:var(--disease);color:#000;}
+.tab-btn:hover:not(.active){background:var(--surface2);color:var(--text);}
+.tab-btn svg{width:16px;height:16px;}
+
+/* ===================== CLASSIFIER SHARED ===================== */
+.clf-wrap{background:var(--bg2);border:1px solid var(--border);border-radius:20px;overflow:hidden;transition:border-color 0.3s;}
+.clf-wrap.disease-mode{border-color:var(--disease-border2);}
+.clf-grid{display:grid;grid-template-columns:1fr 1fr;}
+.clf-panel{padding:2.5rem;}
+.clf-panel:first-child{border-right:1px solid var(--border);}
+.clf-wrap.disease-mode .clf-panel:first-child{border-right-color:var(--disease-border);}
+.plabel{font-size:0.6875rem;font-weight:600;letter-spacing:0.12em;text-transform:uppercase;color:var(--text3);margin-bottom:1.5rem;display:flex;align-items:center;gap:8px;}
+.plabel::before{content:'';width:16px;height:1px;background:var(--accent);}
+.clf-wrap.disease-mode .plabel::before{background:var(--disease);}
+
+/* MODES */
+.modes{display:flex;gap:1px;background:var(--border);border-radius:10px;overflow:hidden;margin-bottom:1.25rem;}
+.mode-btn{flex:1;background:var(--surface);border:none;color:var(--text3);font-family:'DM Sans',sans-serif;font-size:0.8125rem;padding:0.625rem;cursor:pointer;transition:all 0.2s;}
+.mode-btn.active,.mode-btn:hover{background:var(--accent);color:#000;font-weight:600;}
+.disease-mode .mode-btn.active,.disease-mode .mode-btn:hover{background:var(--disease);color:#000;}
+
+/* DROPZONE */
+.dz{border:2px dashed var(--border2);border-radius:14px;padding:2.5rem 1.5rem;text-align:center;cursor:pointer;transition:all 0.3s;background:var(--surface);}
+.dz:hover,.dz.over{border-color:var(--accent);background:var(--surface2);}
+.disease-mode .dz:hover,.disease-mode .dz.over{border-color:var(--disease);}
+.dz-icon{width:56px;height:56px;background:var(--surface2);border:1px solid var(--border2);border-radius:14px;display:flex;align-items:center;justify-content:center;margin:0 auto 1.25rem;}
+.dz-icon svg{width:24px;height:24px;stroke:var(--accent);}
+.disease-mode .dz-icon svg{stroke:var(--disease);}
+.dz-title{font-family:'Syne',sans-serif;font-size:1rem;font-weight:600;margin-bottom:0.5rem;}
+.dz-sub{font-size:0.875rem;color:var(--text3);margin-bottom:1.25rem;}
+.dz-btn{background:transparent;border:1px solid var(--border2);color:var(--accent);font-size:0.875rem;padding:0.625rem 1.5rem;border-radius:8px;cursor:pointer;font-family:inherit;transition:all 0.2s;}
+.dz-btn:hover{background:var(--surface2);border-color:var(--accent);}
+.disease-mode .dz-btn{color:var(--disease);border-color:var(--disease-border2);}
+.disease-mode .dz-btn:hover{border-color:var(--disease);}
+.dz-fmt{font-size:0.75rem;color:var(--text3);margin-top:0.875rem;}
+
+/* PREVIEW */
+#prev-wrap,#d-prev-wrap{display:none;border-radius:12px;overflow:hidden;position:relative;}
+#prev-img,#d-prev-img{width:100%;aspect-ratio:4/3;object-fit:cover;display:block;}
+.prev-bar{position:absolute;bottom:0;left:0;right:0;background:linear-gradient(transparent,rgba(6,14,6,0.9));padding:1rem;display:flex;align-items:center;gap:8px;}
+.prev-fname{font-size:0.8125rem;color:var(--text2);flex:1;}
+.prev-change{background:rgba(255,255,255,0.1);border:none;color:var(--text);font-family:inherit;font-size:0.75rem;padding:0.375rem 0.75rem;border-radius:6px;cursor:pointer;}
+
+/* ANALYZE BTN */
+.analyze-btn{width:100%;margin-top:1.25rem;background:linear-gradient(135deg,var(--accent),#2da84f);color:#000;font-family:'Syne',sans-serif;font-weight:700;font-size:1rem;padding:1rem;border:none;border-radius:12px;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:10px;transition:all 0.2s;letter-spacing:0.02em;}
+.analyze-btn:hover:not(:disabled){transform:translateY(-1px);box-shadow:0 8px 30px rgba(61,186,94,0.35);}
+.analyze-btn:disabled{opacity:0.35;cursor:not-allowed;transform:none;}
+.analyze-btn.disease-btn{background:linear-gradient(135deg,var(--disease),var(--disease2));}
+.analyze-btn.disease-btn:hover:not(:disabled){box-shadow:0 8px 30px rgba(232,121,249,0.35);}
+.analyze-btn svg{width:18px;height:18px;}
+
+/* API */
+.api-wrap{margin-top:1.25rem;padding-top:1.25rem;border-top:1px solid var(--border);}
+.api-lbl{font-size:0.6875rem;color:var(--text3);text-transform:uppercase;letter-spacing:0.1em;margin-bottom:0.5rem;}
+.api-inp{width:100%;background:var(--surface);border:1px solid var(--border2);color:var(--text);font-family:inherit;font-size:0.8125rem;padding:0.625rem 0.875rem;border-radius:8px;outline:none;transition:border-color 0.2s;}
+.api-inp:focus{border-color:var(--accent);}
+.disease-mode .api-inp:focus{border-color:var(--disease);}
+.api-hint{font-size:0.6875rem;color:var(--text3);margin-top:0.375rem;}
+
+/* DISEASE INFO BANNER */
+.disease-banner{background:var(--disease-surface);border:1px solid var(--disease-border);border-radius:12px;padding:1rem 1.25rem;margin-bottom:1.25rem;display:flex;align-items:center;gap:10px;}
+.disease-banner svg{width:18px;height:18px;stroke:var(--disease);flex-shrink:0;}
+.disease-banner p{font-size:0.8125rem;color:var(--text2);line-height:1.5;}
+.disease-banner strong{color:var(--disease);}
+
+/* RESULT */
+.r-placeholder{min-height:420px;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;gap:1rem;}
+.r-ph-icon{width:72px;height:72px;background:var(--surface);border:1px solid var(--border);border-radius:50%;display:flex;align-items:center;justify-content:center;}
+.r-ph-icon svg{width:28px;height:28px;stroke:var(--text3);}
+.r-ph-t{font-family:'Syne',sans-serif;font-size:1rem;font-weight:600;color:var(--text2);}
+.r-ph-s{font-size:0.875rem;color:var(--text3);line-height:1.6;max-width:240px;}
+
+/* LOADING */
+.loading-div{display:none;text-align:center;padding:4rem 2rem;}
+.spin{width:48px;height:48px;border:2px solid var(--surface2);border-top-color:var(--accent);border-radius:50%;animation:spin 0.8s linear infinite;margin:0 auto 1.5rem;}
+.spin.disease-spin{border-top-color:var(--disease);}
+@keyframes spin{to{transform:rotate(360deg);}}
+.spin-txt{color:var(--text2);font-size:0.9375rem;}
+.spin-dots::after{content:'';animation:dots 1.5s steps(4,end) infinite;}
+@keyframes dots{0%{content:'';}25%{content:'.';}50%{content:'..';}75%{content:'...'}}
+
+/* RESULT DISPLAY */
+.result-div{display:none;}
+.r-name{font-family:'Syne',sans-serif;font-size:2rem;font-weight:800;letter-spacing:-0.02em;margin-bottom:8px;line-height:1.1;}
+.r-name span.weed-color{color:var(--accent);}
+.r-name span.disease-color{color:var(--disease);}
+.conf-row{display:flex;align-items:center;gap:10px;margin-bottom:1.5rem;}
+.conf-track{flex:1;height:4px;background:var(--surface2);border-radius:100px;overflow:hidden;}
+.conf-bar{height:100%;border-radius:100px;transition:width 1s cubic-bezier(0.34,1.56,0.64,1);}
+.bar-h{background:linear-gradient(90deg,var(--accent),var(--accent2));}
+.bar-m{background:linear-gradient(90deg,#d97706,var(--amber));}
+.bar-l{background:linear-gradient(90deg,#dc2626,var(--red));}
+.bar-d{background:linear-gradient(90deg,var(--disease),var(--disease2));}
+.cbadge{font-size:0.75rem;font-weight:600;padding:0.25rem 0.75rem;border-radius:100px;}
+.cbadge-h{background:rgba(61,186,94,0.12);color:var(--accent);}
+.cbadge-m{background:rgba(251,191,36,0.12);color:var(--amber);}
+.cbadge-l{background:rgba(248,113,113,0.12);color:var(--red);}
+.cbadge-d{background:rgba(232,121,249,0.12);color:var(--disease);}
+.cpct{font-size:0.875rem;color:var(--text2);}
+.uncertain-box{background:rgba(251,191,36,0.07);border:1px solid rgba(251,191,36,0.25);border-radius:10px;padding:1rem;margin-bottom:1.25rem;display:none;}
+.uncertain-box p{font-size:0.875rem;color:var(--amber);line-height:1.6;}
+.pred-lbl{font-size:0.6875rem;color:var(--text3);text-transform:uppercase;letter-spacing:0.1em;margin-bottom:0.875rem;}
+.pred-row{display:flex;align-items:center;gap:10px;margin-bottom:8px;}
+.pred-name{font-size:0.875rem;color:var(--text2);flex:1;}
+.pred-track{flex:2;height:3px;background:var(--surface2);border-radius:100px;overflow:hidden;}
+.pred-fill{height:100%;border-radius:100px;transition:width 1s ease;}
+.pred-fill-top{background:var(--accent);}
+.pred-fill-top-d{background:var(--disease);}
+.pred-fill-rest{background:var(--surface2);}
+.pred-pct{font-size:0.8125rem;color:var(--text3);min-width:38px;text-align:right;}
+.r-divider{height:1px;background:var(--border);margin:1.25rem 0;}
+.icards{display:grid;grid-template-columns:1fr 1fr;gap:8px;}
+.icard{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:0.875rem;}
+.icard-lbl{font-size:0.6875rem;color:var(--text3);text-transform:uppercase;letter-spacing:0.08em;margin-bottom:0.375rem;}
+.icard-val{font-size:0.9375rem;font-weight:500;color:var(--text);}
+.val-c{color:var(--accent);}
+.val-w{color:var(--amber);}
+.val-n{color:var(--green);}
+.val-d{color:var(--disease);}
+.rec-box{background:rgba(61,186,94,0.05);border:1px solid rgba(61,186,94,0.15);border-radius:12px;padding:1.25rem;margin-top:1rem;}
+.rec-box.disease-rec{background:var(--disease-surface);border-color:var(--disease-border);}
+.rec-lbl{font-size:0.6875rem;color:var(--accent);text-transform:uppercase;letter-spacing:0.1em;margin-bottom:0.5rem;}
+.rec-box.disease-rec .rec-lbl{color:var(--disease);}
+.rec-txt{font-size:0.875rem;color:var(--text2);line-height:1.7;}
+
+/* GRAD-CAM */
+.gcam-wrap{margin-top:1.5rem;padding-top:1.5rem;border-top:1px solid var(--border);}
+.gcam-lbl{font-size:0.6875rem;color:var(--accent);text-transform:uppercase;letter-spacing:0.1em;margin-bottom:0.25rem;}
+.disease-mode .gcam-lbl{color:var(--disease);}
+.gcam-sub{font-size:0.75rem;color:var(--text3);margin-bottom:1rem;}
+.gcam-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;}
+.gcam-item{border-radius:10px;overflow:hidden;border:1px solid var(--border);}
+.gcam-img{width:100%;aspect-ratio:1;object-fit:cover;display:block;background:var(--surface);}
+.gcam-cap{padding:6px 8px;font-size:0.625rem;color:var(--text3);text-transform:uppercase;letter-spacing:0.06em;background:var(--surface);}
+
+/* BOTTOM */
+.clf-bottom{padding:1.5rem 2.5rem;border-top:1px solid var(--border);display:grid;grid-template-columns:1fr 1fr;gap:2rem;}
+.cb-lbl{font-size:0.6875rem;color:var(--text3);text-transform:uppercase;letter-spacing:0.1em;margin-bottom:1rem;}
+.htable{width:100%;border-collapse:collapse;font-size:0.8125rem;}
+.htable th{text-align:left;padding:8px;color:var(--text3);font-size:0.6875rem;text-transform:uppercase;letter-spacing:0.08em;border-bottom:1px solid var(--border);font-weight:400;}
+.htable td{padding:8px;color:var(--text2);border-bottom:1px solid var(--border);}
+.hempty{color:var(--text3);font-size:0.8125rem;padding:1rem 0;}
+.minfo{display:flex;flex-direction:column;gap:6px;}
+.minfo-row{display:flex;justify-content:space-between;padding:8px 10px;background:var(--surface);border-radius:8px;font-size:0.8125rem;}
+.minfo-row span:first-child{color:var(--text3);}
+.minfo-row .val{color:var(--text);}
+.minfo-row .val-g{color:var(--accent);}
+.minfo-row .val-d{color:var(--disease);}
+
+/* STEPS */
+.steps{display:grid;grid-template-columns:repeat(3,1fr);gap:1.25rem;}
+.step{background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:2rem;transition:border-color 0.3s,transform 0.3s;}
+.step:hover{border-color:var(--border2);transform:translateY(-4px);}
+.step-n{font-family:'Syne',sans-serif;font-size:2.5rem;font-weight:800;color:var(--surface2);line-height:1;margin-bottom:1.25rem;-webkit-text-stroke:1px var(--border2);}
+.step-icon{width:40px;height:40px;background:var(--surface2);border:1px solid var(--border);border-radius:10px;display:flex;align-items:center;justify-content:center;margin-bottom:0.875rem;}
+.step-icon svg{width:18px;height:18px;stroke:var(--accent);}
+.step-t{font-family:'Syne',sans-serif;font-weight:600;font-size:1rem;margin-bottom:0.5rem;}
+.step-d{font-size:0.875rem;color:var(--text2);line-height:1.7;}
+@media(max-width:768px){.steps{grid-template-columns:1fr;}}
+
+/* ARCH */
+.arch-grid{display:grid;grid-template-columns:1fr 1.5fr;gap:2rem;}
+.arch-layers{display:flex;flex-direction:column;gap:2px;}
+.al{background:var(--surface);border:1px solid var(--border);padding:0.875rem 1rem;display:flex;justify-content:space-between;align-items:center;border-left:3px solid transparent;transition:all 0.2s;}
+.al:hover,.al.hl{border-left-color:var(--accent);background:rgba(61,186,94,0.04);}
+.al-name{font-size:0.875rem;font-weight:500;color:var(--text);}
+.al-detail{font-size:0.75rem;color:var(--text3);}
+.al-arrow{text-align:center;color:var(--accent);padding:3px 0;font-size:1rem;}
+.al-out{background:var(--surface);border:1px solid var(--border);padding:0.75rem;display:grid;grid-template-columns:repeat(4,1fr);gap:4px;}
+.al-out span{font-size:0.6875rem;color:var(--accent);text-align:center;padding:4px;background:rgba(61,186,94,0.08);border-radius:4px;}
+.al-out-d{grid-template-columns:repeat(4,1fr)!important;}
+.al-out-d span{color:var(--disease)!important;background:rgba(232,121,249,0.08)!important;}
+.arch-info{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:1.5rem;}
+.ai-title{font-family:'Syne',sans-serif;font-weight:700;font-size:1rem;color:var(--accent);margin-bottom:0.875rem;}
+.ai-p{font-size:0.875rem;color:var(--text2);line-height:1.8;margin-bottom:1rem;}
+.ai-p strong{color:var(--accent);}
+@media(max-width:768px){.arch-grid{grid-template-columns:1fr;}}
+
+/* CLASSES */
+.cls-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1rem;}
+.cls-grid-7{display:grid;grid-template-columns:repeat(4,1fr);gap:1rem;}
+.cls-card{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:1.5rem;transition:all 0.3s;}
+.cls-card:hover{border-color:var(--border2);transform:translateY(-4px);}
+.cls-card.disease-card:hover{border-color:var(--disease-border2);}
+.cls-num{font-family:'Syne',sans-serif;font-size:1.75rem;font-weight:800;color:var(--surface2);margin-bottom:1rem;}
+.cls-icon{width:36px;height:36px;border-radius:8px;margin-bottom:0.875rem;display:flex;align-items:center;justify-content:center;}
+.cls-icon svg{width:18px;height:18px;}
+.cls-name{font-family:'Syne',sans-serif;font-weight:600;font-size:1rem;margin-bottom:0.375rem;}
+.cls-count{font-size:0.8125rem;color:var(--text3);margin-bottom:0.75rem;}
+.cls-tag{display:inline-block;font-size:0.75rem;font-weight:600;padding:0.25rem 0.75rem;border-radius:100px;}
+.tag-c{background:rgba(61,186,94,0.1);color:var(--accent);}
+.tag-w{background:rgba(251,191,36,0.1);color:var(--amber);}
+.tag-s{background:rgba(255,255,255,0.06);color:var(--text2);}
+.tag-d{background:rgba(232,121,249,0.1);color:var(--disease);}
+.tag-h{background:rgba(74,222,128,0.1);color:var(--green);}
+@media(max-width:768px){.cls-grid{grid-template-columns:1fr 1fr;}.cls-grid-7{grid-template-columns:1fr 1fr;}}
+
+/* RESULTS */
+.res-grid{display:grid;grid-template-columns:1fr 1fr;gap:1.25rem;}
+.res-card{background:var(--surface);border:1px solid var(--border);border-radius:14px;overflow:hidden;}
+.res-card-hdr{padding:1rem 1.25rem;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:8px;}
+.res-dot{width:8px;height:8px;border-radius:50%;background:var(--accent);}
+.res-title{font-family:'Syne',sans-serif;font-size:0.875rem;font-weight:600;}
+.res-card img{width:100%;display:block;}
+@media(max-width:768px){.res-grid{grid-template-columns:1fr;}}
+
+/* MODEL COMPARISON TABLE */
+.model-table-wrap{background:var(--surface);border:1px solid var(--border);border-radius:14px;overflow:hidden;margin-top:2rem;}
+.model-table{width:100%;border-collapse:collapse;font-size:0.875rem;}
+.model-table th{padding:1rem;text-align:left;color:var(--text3);font-size:0.75rem;text-transform:uppercase;letter-spacing:0.08em;border-bottom:1px solid var(--border);font-weight:400;background:var(--bg2);}
+.model-table td{padding:1rem;border-bottom:1px solid var(--border);color:var(--text2);}
+.model-table tr:last-child td{border-bottom:none;}
+.model-table .highlight-row td{background:rgba(61,186,94,0.04);color:var(--text);}
+.model-table .acc-val{font-family:'Syne',sans-serif;font-weight:700;color:var(--accent);}
+.model-table .best-badge{background:rgba(61,186,94,0.12);color:var(--accent);font-size:0.6875rem;font-weight:600;padding:0.2rem 0.6rem;border-radius:100px;}
+
+/* TEAM */
+.team-wrap{background:var(--surface);border:1px solid var(--border);border-radius:16px;overflow:hidden;}
+.team-sup{padding:2.5rem;border-bottom:1px solid var(--accent);background:rgba(61,186,94,0.04);display:flex;align-items:center;gap:2rem;}
+.sup-avatar{width:72px;height:72px;background:var(--accent);border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.sup-avatar svg{width:36px;height:36px;stroke:#000;}
+.sup-badge{display:inline-block;background:var(--accent);color:#000;font-family:'Syne',sans-serif;font-size:0.625rem;font-weight:800;padding:0.25rem 0.75rem;border-radius:100px;margin-bottom:0.625rem;letter-spacing:0.1em;text-transform:uppercase;}
+.sup-name{font-family:'Syne',sans-serif;font-size:1.5rem;font-weight:800;letter-spacing:-0.01em;margin-bottom:0.25rem;}
+.sup-role{font-size:0.875rem;color:var(--text2);}
+.team-members{display:grid;grid-template-columns:repeat(5,1fr);gap:1px;background:var(--border);}
+.tmember{background:var(--bg2);padding:1.5rem;text-align:center;}
+.tm-num{font-family:'Syne',sans-serif;font-size:1.25rem;font-weight:800;color:var(--surface2);margin-bottom:0.75rem;}
+.tm-av{width:44px;height:44px;background:var(--surface);border:1px solid var(--border);border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 0.75rem;font-family:'Syne',sans-serif;font-weight:800;color:var(--accent);font-size:0.875rem;}
+.tm-name{font-family:'Syne',sans-serif;font-weight:600;font-size:0.875rem;margin-bottom:0.375rem;}
+.tm-reg{font-size:0.6875rem;color:var(--text3);}
+.team-footer{padding:1.5rem 2.5rem;border-top:1px solid var(--border);display:flex;gap:3rem;flex-wrap:wrap;}
+.tf-lbl{font-size:0.6875rem;color:var(--text3);text-transform:uppercase;letter-spacing:0.08em;margin-bottom:0.25rem;}
+.tf-val{font-size:0.9375rem;font-weight:500;color:var(--text);}
+@media(max-width:768px){.team-members{grid-template-columns:1fr 1fr;}.team-sup{flex-direction:column;text-align:center;}}
+
+/* FOOTER */
+footer{position:relative;z-index:1;border-top:1px solid var(--border);padding:2.5rem;text-align:center;}
+.footer-logo{font-family:'Syne',sans-serif;font-size:1.25rem;font-weight:800;color:var(--text);margin-bottom:0.5rem;}
+.footer-logo span{color:var(--accent);}
+.footer-sub{font-size:0.8125rem;color:var(--text3);}
+
+/* TOAST */
+#toast{position:fixed;bottom:2rem;right:2rem;z-index:9999;background:var(--surface2);border:1px solid var(--border2);border-radius:12px;padding:1rem 1.5rem;font-size:0.875rem;color:var(--text);transform:translateY(100px);opacity:0;transition:all 0.3s;pointer-events:none;}
+#toast.show{transform:translateY(0);opacity:1;}
+
+/* MOBILE */
+@media(max-width:768px){
+  .clf-grid{grid-template-columns:1fr;}
+  .clf-panel:first-child{border-right:none;border-bottom:1px solid var(--border);}
+  .clf-bottom{grid-template-columns:1fr;}
+  .tab-switcher{flex-direction:column;}
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="#home" class="nav-logo">
+    <div class="nav-logo-sq"><svg viewBox="0 0 24 24" fill="none" stroke-linecap="round"><path d="M12 2C8 5 4 9 4 14a8 8 0 0016 0c0-5-4-9-8-12z"/></svg></div>
+    <span class="nav-logo-name">Soy<span>Vision</span></span>
+  </a>
+  <ul class="nav-links">
+    <li><a href="#classify">Classify</a></li>
+    <li><a href="#disease">Disease</a></li>
+    <li><a href="#model">Model</a></li>
+    <li><a href="#results">Results</a></li>
+    <li><a href="#team">Team</a></li>
+  </ul>
+  <a href="#classify" class="nav-cta">Try Now →</a>
+</nav>
+
+<!-- HERO -->
+<section class="hero" id="home">
+  <div class="hero-inner">
+    <div>
+      <div class="hero-badge"><span class="badge-dot"></span>VIT Bhopal University · Capstone 2022–26</div>
+      <h1>Crop, Weed &<br><span class="grad">Disease AI</span></h1>
+      <p class="hero-sub">Upload a field image to classify soybean, weeds, or soil — or detect 7 soybean diseases with Grad-CAM explainability. Powered by ResNet50, EfficientNetB0 & ViT.</p>
+      <div class="hero-btns">
+        <a href="#classify" class="btn-p">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M17 8l-5-5-5 5M12 3v12"/></svg>
+          Start Classifying
+        </a>
+        <a href="#disease" class="btn-s" style="border-color:var(--disease-border2);color:var(--disease);">Detect Disease →</a>
+      </div>
+    </div>
+    <div class="hero-stats">
+      <div class="hstat"><div class="hstat-n">99.9<em>%</em></div><div class="hstat-l">ViT Accuracy</div></div>
+      <div class="hstat"><div class="hstat-n">4</div><div class="hstat-l">Weed Classes</div></div>
+      <div class="hstat"><div class="hstat-n">7</div><div class="hstat-l">Disease Classes</div></div>
+      <div class="hstat"><div class="hstat-n">4</div><div class="hstat-l">Models Compared</div></div>
+    </div>
+  </div>
+</section>
+
+<div class="sec-divider"></div>
+
+<!-- WEED CLASSIFIER -->
+<section class="section" id="classify">
+  <div class="sec-tag">AI Classifier</div>
+  <h2>Weed & Crop Detection</h2>
+  <p class="sec-sub">Drop a field image for instant prediction with Grad-CAM visualization.</p>
+
+  <div class="clf-wrap" id="weed-clf-wrap">
+    <div class="clf-grid">
+      <!-- INPUT -->
+      <div class="clf-panel">
+        <div class="plabel">Input Image</div>
+        <div class="modes">
+          <button class="mode-btn active" onclick="setMode('upload',this,'weed')">File Upload</button>
+          <button class="mode-btn" onclick="setMode('webcam',this,'weed')">Webcam</button>
+          <button class="mode-btn" onclick="setMode('camera',this,'weed')">Camera</button>
+        </div>
+        <div id="mode-upload">
+          <div class="dz" id="dropzone" onclick="document.getElementById('fi').click()">
+            <div class="dz-icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.5" stroke-linecap="round"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M17 8l-5-5-5 5M12 3v12"/></svg></div>
+            <div class="dz-title">Drop field image here</div>
+            <div class="dz-sub">or click to browse files</div>
+            <button class="dz-btn" onclick="event.stopPropagation();document.getElementById('fi').click()">Browse Files</button>
+            <div class="dz-fmt">JPG · PNG · TIF · Max 10MB</div>
+            <input type="file" id="fi" accept="image/*" style="display:none" onchange="handleFile(this.files[0],'weed')">
+          </div>
+          <div id="prev-wrap">
+            <img id="prev-img" alt="Preview">
+            <div class="prev-bar">
+              <span class="prev-fname" id="prev-name">file.jpg</span>
+              <button class="prev-change" onclick="resetUpload('weed')">Change</button>
+            </div>
+          </div>
+        </div>
+        <div id="mode-webcam" style="display:none;">
+          <div id="wcam-wrap" style="display:none;">
+            <video id="wcam-video" style="width:100%;aspect-ratio:4/3;object-fit:cover;background:#000;display:block;border-radius:12px;" autoplay playsinline muted></video>
+            <div style="display:flex;gap:8px;margin-top:8px;">
+              <button style="flex:1;background:var(--surface2);border:1px solid var(--border2);color:var(--text);font-family:inherit;font-size:0.8125rem;padding:0.625rem;border-radius:8px;cursor:pointer;" onclick="stopWcam()">Stop</button>
+              <button style="flex:1;background:var(--accent);color:#000;border:none;font-family:'Syne',sans-serif;font-weight:700;font-size:0.8125rem;padding:0.625rem;border-radius:8px;cursor:pointer;" onclick="captureWcam()">Capture & Analyze</button>
+            </div>
+          </div>
+          <button class="btn-p" style="width:100%;justify-content:center;border-radius:12px;" onclick="startWcam('user')">Start Webcam</button>
+        </div>
+        <div id="mode-camera" style="display:none;">
+          <div class="dz" onclick="document.getElementById('ci').click()">
+            <div class="dz-icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.5" stroke-linecap="round"><path d="M23 19a2 2 0 01-2 2H3a2 2 0 01-2-2V8a2 2 0 012-2h4l2-3h6l2 3h4a2 2 0 012 2z"/><circle cx="12" cy="13" r="4"/></svg></div>
+            <div class="dz-title">Open Camera</div>
+            <div class="dz-sub">Uses rear camera on mobile</div>
+            <button class="dz-btn" onclick="event.stopPropagation();document.getElementById('ci').click()">Open Camera</button>
+            <input type="file" id="ci" accept="image/*" capture="environment" style="display:none" onchange="handleFile(this.files[0],'weed')">
+          </div>
+        </div>
+        <button class="analyze-btn" id="weedAnalyzeBtn" disabled onclick="runAnalysis('weed')">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
+          Analyze Image
+        </button>
+        <div class="api-wrap">
+          <div class="api-lbl">Flask API Endpoint</div>
+          <input type="text" class="api-inp" id="weedApiUrl" value="https://sunniest-corey-hardheadedly.ngrok-free.dev/predict" placeholder="https://...">
+          <div class="api-hint">Change to http://192.168.x.x:5000/predict for local</div>
+        </div>
+      </div>
+      <!-- RESULT -->
+      <div class="clf-panel">
+        <div class="plabel">Analysis Result</div>
+        <div class="r-placeholder" id="w-placeholder">
+          <div class="r-ph-icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.5" stroke-linecap="round"><path d="M12 2C8 5 4 9 4 14a8 8 0 0016 0c0-5-4-9-8-12z"/></svg></div>
+          <div class="r-ph-t">No image analyzed</div>
+          <p class="r-ph-s">Upload a field image and click Analyze to see results here.</p>
+        </div>
+        <div class="loading-div" id="w-loading">
+          <div class="spin"></div>
+          <div class="spin-txt">Analyzing<span class="spin-dots"></span></div>
+          <div style="font-size:0.8125rem;color:var(--text3);margin-top:0.5rem;">ResNet50 + Grad-CAM</div>
+        </div>
+        <div class="result-div" id="w-result">
+          <div class="uncertain-box" id="w-ubox"><p>⚠ Confidence below 70% — please upload a clearer field image.</p></div>
+          <div class="r-name">→ <span id="w-cls" class="weed-color">—</span></div>
+          <div class="conf-row">
+            <div class="conf-track"><div class="conf-bar" id="w-bar" style="width:0%"></div></div>
+            <span class="cbadge" id="w-badge">—</span>
+            <span class="cpct" id="w-pct">—</span>
+          </div>
+          <div class="pred-lbl">All class probabilities</div>
+          <div id="w-preds"></div>
+          <div class="r-divider"></div>
+          <div class="icards">
+            <div class="icard"><div class="icard-lbl">Type</div><div class="icard-val" id="w-type">—</div></div>
+            <div class="icard"><div class="icard-lbl">Weed Risk</div><div class="icard-val" id="w-risk">—</div></div>
+            <div class="icard"><div class="icard-lbl">Action</div><div class="icard-val" id="w-act">—</div></div>
+            <div class="icard"><div class="icard-lbl">Model</div><div class="icard-val">ResNet50</div></div>
+          </div>
+          <div class="rec-box">
+            <div class="rec-lbl">Recommendation</div>
+            <p class="rec-txt" id="w-rec">—</p>
+          </div>
+          <div class="gcam-wrap">
+            <div class="gcam-lbl">Grad-CAM Visualization</div>
+            <div class="gcam-sub">Red = highest model attention for this prediction</div>
+            <div class="gcam-grid">
+              <div class="gcam-item"><img class="gcam-img" id="w-gc-orig" src="" alt="Original"><div class="gcam-cap">Original</div></div>
+              <div class="gcam-item"><img class="gcam-img" id="w-gc-heat" src="" alt="Heatmap"><div class="gcam-cap">Heatmap</div></div>
+              <div class="gcam-item"><img class="gcam-img" id="w-gc-over" src="" alt="Overlay"><div class="gcam-cap">Overlay</div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="clf-bottom">
+      <div>
+        <div class="cb-lbl">Prediction History</div>
+        <table class="htable">
+          <thead><tr><th>Time</th><th>File</th><th>Prediction</th><th>Confidence</th></tr></thead>
+          <tbody id="w-hist"><tr><td colspan="4" class="hempty">No predictions yet</td></tr></tbody>
+        </table>
+      </div>
+      <div>
+        <div class="cb-lbl">Model Info</div>
+        <div class="minfo">
+          <div class="minfo-row"><span>Architecture</span><span class="val">ResNet50</span></div>
+          <div class="minfo-row"><span>Val Accuracy</span><span class="val val-g">97.62%</span></div>
+          <div class="minfo-row"><span>Parameters</span><span class="val">~25M</span></div>
+          <div class="minfo-row"><span>Input Size</span><span class="val">224×224×3</span></div>
+          <div class="minfo-row"><span>Threshold</span><span class="val">70%</span></div>
+          <div class="minfo-row"><span>Classes</span><span class="val">4</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="sec-divider"></div>
+
+<!-- DISEASE DETECTION -->
+<section class="section" id="disease">
+  <div class="sec-tag" style="color:var(--disease);">Disease Detection</div>
+  <h2>Soybean Disease Detector</h2>
+  <p class="sec-sub">Upload a soybean leaf image to detect 7 diseases using ResNet50 with Grad-CAM visualization showing exactly where the disease is detected.</p>
+
+  <div class="clf-wrap disease-mode" id="disease-clf-wrap">
+    <div class="clf-grid">
+      <!-- INPUT -->
+      <div class="clf-panel">
+        <div class="plabel">Leaf Image</div>
+        <div class="disease-banner">
+          <svg viewBox="0 0 24 24" fill="none" stroke-width="1.5" stroke-linecap="round"><path d="M12 9v4M12 17h.01M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/></svg>
+          <p>Upload a <strong>soybean leaf image</strong> — model detects 7 diseases: Bacterial Pustule, Frogeye Leaf Spot, Rust, Sudden Death Syndrome, Target Leaf Spot, Yellow Mosaic, or Healthy.</p>
+        </div>
+        <div class="dz" id="d-dropzone" onclick="document.getElementById('dfi').click()" style="border-color:var(--disease-border2);">
+          <div class="dz-icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.5" stroke-linecap="round"><path d="M12 2C8 5 4 9 4 14a8 8 0 0016 0c0-5-4-9-8-12z"/></svg></div>
+          <div class="dz-title">Drop leaf image here</div>
+          <div class="dz-sub">or click to browse files</div>
+          <button class="dz-btn" onclick="event.stopPropagation();document.getElementById('dfi').click()">Browse Files</button>
+          <div class="dz-fmt">JPG · PNG · Max 10MB</div>
+          <input type="file" id="dfi" accept="image/*" style="display:none" onchange="handleFile(this.files[0],'disease')">
+        </div>
+        <div id="d-prev-wrap">
+          <img id="d-prev-img" alt="Preview">
+          <div class="prev-bar">
+            <span class="prev-fname" id="d-prev-name">file.jpg</span>
+            <button class="prev-change" onclick="resetUpload('disease')">Change</button>
+          </div>
+        </div>
+        <button class="analyze-btn disease-btn" id="diseaseAnalyzeBtn" disabled onclick="runAnalysis('disease')">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
+          Detect Disease
+        </button>
+        <div class="api-wrap">
+          <div class="api-lbl">Flask API Endpoint</div>
+          <input type="text" class="api-inp" id="diseaseApiUrl" value="https://sunniest-corey-hardheadedly.ngrok-free.dev/predict-disease" placeholder="https://...">
+          <div class="api-hint">Change to http://192.168.x.x:5000/predict-disease for local</div>
+        </div>
+      </div>
+      <!-- RESULT -->
+      <div class="clf-panel">
+        <div class="plabel">Detection Result</div>
+        <div class="r-placeholder" id="d-placeholder">
+          <div class="r-ph-icon" style="border-color:var(--disease-border);"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.5" stroke-linecap="round" style="stroke:var(--disease);"><path d="M12 2C8 5 4 9 4 14a8 8 0 0016 0c0-5-4-9-8-12z"/></svg></div>
+          <div class="r-ph-t">No leaf analyzed</div>
+          <p class="r-ph-s">Upload a soybean leaf image and click Detect Disease.</p>
+        </div>
+        <div class="loading-div" id="d-loading">
+          <div class="spin disease-spin"></div>
+          <div class="spin-txt">Detecting Disease<span class="spin-dots"></span></div>
+          <div style="font-size:0.8125rem;color:var(--text3);margin-top:0.5rem;">ResNet50 + Grad-CAM</div>
+        </div>
+        <div class="result-div" id="d-result">
+          <div class="uncertain-box" id="d-ubox"><p>⚠ Confidence below 60% — please upload a clearer leaf image.</p></div>
+          <div class="r-name">→ <span id="d-cls" class="disease-color">—</span></div>
+          <div class="conf-row">
+            <div class="conf-track"><div class="conf-bar bar-d" id="d-bar" style="width:0%"></div></div>
+            <span class="cbadge cbadge-d" id="d-badge">—</span>
+            <span class="cpct" id="d-pct">—</span>
+          </div>
+          <div class="pred-lbl">All disease probabilities</div>
+          <div id="d-preds"></div>
+          <div class="r-divider"></div>
+          <div class="icards">
+            <div class="icard"><div class="icard-lbl">Disease Type</div><div class="icard-val val-d" id="d-type">—</div></div>
+            <div class="icard"><div class="icard-lbl">Severity</div><div class="icard-val" id="d-severity">—</div></div>
+            <div class="icard"><div class="icard-lbl">Treatment</div><div class="icard-val" id="d-treatment">—</div></div>
+            <div class="icard"><div class="icard-lbl">Model</div><div class="icard-val">ResNet50</div></div>
+          </div>
+          <div class="rec-box disease-rec">
+            <div class="rec-lbl">Treatment Recommendation</div>
+            <p class="rec-txt" id="d-rec">—</p>
+          </div>
+          <div class="gcam-wrap">
+            <div class="gcam-lbl" style="color:var(--disease);">Grad-CAM Visualization</div>
+            <div class="gcam-sub">Red = disease focus area detected by model</div>
+            <div class="gcam-grid">
+              <div class="gcam-item"><img class="gcam-img" id="d-gc-orig" src="" alt="Original"><div class="gcam-cap">Original</div></div>
+              <div class="gcam-item"><img class="gcam-img" id="d-gc-heat" src="" alt="Heatmap"><div class="gcam-cap">Heatmap</div></div>
+              <div class="gcam-item"><img class="gcam-img" id="d-gc-over" src="" alt="Overlay"><div class="gcam-cap">Overlay</div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="clf-bottom">
+      <div>
+        <div class="cb-lbl">Detection History</div>
+        <table class="htable">
+          <thead><tr><th>Time</th><th>File</th><th>Disease</th><th>Confidence</th></tr></thead>
+          <tbody id="d-hist"><tr><td colspan="4" class="hempty">No detections yet</td></tr></tbody>
+        </table>
+      </div>
+      <div>
+        <div class="cb-lbl">Disease Model Info</div>
+        <div class="minfo">
+          <div class="minfo-row"><span>Architecture</span><span class="val">ResNet50</span></div>
+          <div class="minfo-row"><span>Val Accuracy</span><span class="val val-d">80.52%</span></div>
+          <div class="minfo-row"><span>Parameters</span><span class="val">~25M</span></div>
+          <div class="minfo-row"><span>Input Size</span><span class="val">224×224×3</span></div>
+          <div class="minfo-row"><span>Threshold</span><span class="val">60%</span></div>
+          <div class="minfo-row"><span>Disease Classes</span><span class="val">7</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="sec-divider"></div>
+
+<!-- MODEL COMPARISON -->
+<section class="section" id="model">
+  <div class="sec-tag">Model Comparison</div>
+  <h2>Multi-Model Analysis</h2>
+  <p class="sec-sub">Four architectures trained and compared for both tasks.</p>
+
+  <div style="margin-bottom:2rem;">
+    <div class="sec-tag" style="margin-bottom:0.5rem;">Weed Classification</div>
+    <div class="model-table-wrap">
+      <table class="model-table">
+        <thead><tr><th>Model</th><th>Val Accuracy</th><th>Parameters</th><th>Training Time</th><th>Status</th></tr></thead>
+        <tbody>
+          <tr><td>VGG16</td><td class="acc-val">99.18%</td><td>138M</td><td>~45 min</td><td>—</td></tr>
+          <tr><td>ResNet50</td><td class="acc-val">97.62%</td><td>25M</td><td>~30 min</td><td>— Deployed</td></tr>
+          <tr><td>EfficientNetB0</td><td class="acc-val">99.64%</td><td>5.3M</td><td>~20 min</td><td>—</td></tr>
+          <tr class="highlight-row"><td><strong>ViT</strong></td><td class="acc-val">99.93%</td><td>86M</td><td>~45 min</td><td><span class="best-badge">Best</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div>
+    <div class="sec-tag" style="color:var(--disease);margin-bottom:0.5rem;">Disease Detection</div>
+    <div class="model-table-wrap" style="border-color:var(--disease-border);">
+      <table class="model-table">
+        <thead><tr><th>Model</th><th>Val Accuracy</th><th>Parameters</th><th>Classes</th><th>Status</th></tr></thead>
+        <tbody>
+          <tr class="highlight-row"><td><strong>ResNet50</strong></td><td class="acc-val" style="color:var(--disease);">80.52%</td><td>25M</td><td>7</td><td><span class="best-badge" style="background:rgba(232,121,249,0.12);color:var(--disease);">Deployed</span></td></tr>
+          <tr><td>EfficientNetB0</td><td class="acc-val" style="color:var(--disease);">77.27%</td><td>5.3M</td><td>7</td><td>—</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div style="margin-top:3rem;">
+    <div class="sec-tag">Process</div>
+    <h2>How It Works</h2>
+    <p class="sec-sub" style="margin-bottom:2rem;">Three steps from image to actionable insight.</p>
+    <div class="steps">
+      <div class="step">
+        <div class="step-n">01</div>
+        <div class="step-icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.5" stroke-linecap="round"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M17 8l-5-5-5 5M12 3v12"/></svg></div>
+        <div class="step-t">Upload Image</div>
+        <div class="step-d">Upload field image for weed detection, or soybean leaf image for disease detection. JPG, PNG, TIF supported.</div>
+      </div>
+      <div class="step">
+        <div class="step-n">02</div>
+        <div class="step-icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.5" stroke-linecap="round"><circle cx="12" cy="12" r="3"/><path d="M19.07 4.93a10 10 0 010 14.14M4.93 4.93a10 10 0 000 14.14"/></svg></div>
+        <div class="step-t">Model Inference</div>
+        <div class="step-d">Fine-tuned ResNet50 processes the image via Flask backend. Transfer learning from ImageNet weights.</div>
+      </div>
+      <div class="step">
+        <div class="step-n">03</div>
+        <div class="step-icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.5" stroke-linecap="round"><path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg></div>
+        <div class="step-t">Result + Grad-CAM</div>
+        <div class="step-d">Get predicted class, confidence score, and Grad-CAM heatmap showing exactly which regions the model focused on.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="sec-divider"></div>
+
+<!-- CLASSES -->
+<section class="section">
+  <div class="sec-tag">Classes</div>
+  <h2>What It Detects</h2>
+  <p class="sec-sub">Weed classification + 7 soybean disease classes.</p>
+
+  <div style="margin-bottom:1rem;font-size:0.75rem;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;color:var(--accent);">Weed Classifier — 4 Classes</div>
+  <div class="cls-grid" style="margin-bottom:2.5rem;">
+    <div class="cls-card"><div class="cls-num">01</div><div class="cls-icon" style="background:rgba(61,186,94,0.1);"><svg viewBox="0 0 24 24" fill="none" stroke="var(--accent)" stroke-width="1.5" stroke-linecap="round"><path d="M12 2C8 5 4 9 4 14a8 8 0 0016 0c0-5-4-9-8-12z"/></svg></div><div class="cls-name">Soybean</div><div class="cls-count">~3,750 images</div><span class="cls-tag tag-c">Crop</span></div>
+    <div class="cls-card"><div class="cls-num">02</div><div class="cls-icon" style="background:rgba(251,191,36,0.1);"><svg viewBox="0 0 24 24" fill="none" stroke="var(--amber)" stroke-width="1.5" stroke-linecap="round"><path d="M12 2C8 5 4 9 4 14a8 8 0 0016 0c0-5-4-9-8-12z"/></svg></div><div class="cls-name">Broadleaf</div><div class="cls-count">~3,750 images</div><span class="cls-tag tag-w">Weed</span></div>
+    <div class="cls-card"><div class="cls-num">03</div><div class="cls-icon" style="background:rgba(251,191,36,0.1);"><svg viewBox="0 0 24 24" fill="none" stroke="var(--amber)" stroke-width="1.5" stroke-linecap="round"><path d="M3 18c3-6 5-10 9-10s6 4 9 10"/></svg></div><div class="cls-name">Grass</div><div class="cls-count">~3,750 images</div><span class="cls-tag tag-w">Weed</span></div>
+    <div class="cls-card"><div class="cls-num">04</div><div class="cls-icon" style="background:var(--surface2);"><svg viewBox="0 0 24 24" fill="none" stroke="var(--text2)" stroke-width="1.5" stroke-linecap="round"><path d="M3 12h18M3 6h18M3 18h18"/></svg></div><div class="cls-name">Soil</div><div class="cls-count">~3,750 images</div><span class="cls-tag tag-s">Bare Ground</span></div>
+  </div>
+
+  <div style="margin-bottom:1rem;font-size:0.75rem;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;color:var(--disease);">Disease Detector — 7 Classes</div>
+  <div class="cls-grid-7">
+    <div class="cls-card disease-card"><div class="cls-num">01</div><div class="cls-icon" style="background:rgba(232,121,249,0.1);"><svg viewBox="0 0 24 24" fill="none" stroke="var(--disease)" stroke-width="1.5" stroke-linecap="round"><circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M4.22 4.22l2.12 2.12M17.66 17.66l2.12 2.12"/></svg></div><div class="cls-name">Bacterial Pustule</div><div class="cls-count">110 images</div><span class="cls-tag tag-d">Bacterial</span></div>
+    <div class="cls-card disease-card"><div class="cls-num">02</div><div class="cls-icon" style="background:rgba(232,121,249,0.1);"><svg viewBox="0 0 24 24" fill="none" stroke="var(--disease)" stroke-width="1.5" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="4"/></svg></div><div class="cls-name">Frogeye Leaf Spot</div><div class="cls-count">110 images</div><span class="cls-tag tag-d">Fungal</span></div>
+    <div class="cls-card disease-card"><div class="cls-num">03</div><div class="cls-icon" style="background:rgba(74,222,128,0.1);"><svg viewBox="0 0 24 24" fill="none" stroke="var(--green)" stroke-width="1.5" stroke-linecap="round"><path d="M9 12l2 2 4-4"/><circle cx="12" cy="12" r="10"/></svg></div><div class="cls-name">Healthy</div><div class="cls-count">110 images</div><span class="cls-tag tag-h">Healthy</span></div>
+    <div class="cls-card disease-card"><div class="cls-num">04</div><div class="cls-icon" style="background:rgba(232,121,249,0.1);"><svg viewBox="0 0 24 24" fill="none" stroke="var(--disease)" stroke-width="1.5" stroke-linecap="round"><path d="M12 2C8 5 4 9 4 14a8 8 0 0016 0c0-5-4-9-8-12z"/></svg></div><div class="cls-name">Rust</div><div class="cls-count">110 images</div><span class="cls-tag tag-d">Fungal</span></div>
+    <div class="cls-card disease-card"><div class="cls-num">05</div><div class="cls-icon" style="background:rgba(232,121,249,0.1);"><svg viewBox="0 0 24 24" fill="none" stroke="var(--disease)" stroke-width="1.5" stroke-linecap="round"><path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/></svg></div><div class="cls-name">Sudden Death Syndrome</div><div class="cls-count">110 images</div><span class="cls-tag tag-d">Fungal</span></div>
+    <div class="cls-card disease-card"><div class="cls-num">06</div><div class="cls-icon" style="background:rgba(232,121,249,0.1);"><svg viewBox="0 0 24 24" fill="none" stroke="var(--disease)" stroke-width="1.5" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><path d="M8 12h8M12 8v8"/></svg></div><div class="cls-name">Target Leaf Spot</div><div class="cls-count">110 images</div><span class="cls-tag tag-d">Fungal</span></div>
+    <div class="cls-card disease-card"><div class="cls-num">07</div><div class="cls-icon" style="background:rgba(232,121,249,0.1);"><svg viewBox="0 0 24 24" fill="none" stroke="var(--disease)" stroke-width="1.5" stroke-linecap="round"><path d="M12 2C8 5 4 9 4 14a8 8 0 0016 0c0-5-4-9-8-12z"/><path d="M8 14s1.5 2 4 2 4-2 4-2"/></svg></div><div class="cls-name">Yellow Mosaic</div><div class="cls-count">110 images</div><span class="cls-tag tag-d">Viral</span></div>
+  </div>
+</section>
+
+<div class="sec-divider"></div>
+
+<!-- RESULTS -->
+<section class="section" id="results">
+  <div class="sec-tag">Analysis</div>
+  <h2>Results & Analysis</h2>
+  <p class="sec-sub">Model evaluation on validation images.</p>
+  <div class="res-grid">
+    <div class="res-card"><div class="res-card-hdr"><div class="res-dot"></div><span class="res-title">Confusion Matrix</span></div><img src="assets/confusion_matrix.png" alt="Confusion Matrix"></div>
+    <div class="res-card"><div class="res-card-hdr"><div class="res-dot"></div><span class="res-title">Training Curves</span></div><img src="assets/training_curves.png" alt="Training Curves"></div>
+    <div class="res-card"><div class="res-card-hdr"><div class="res-dot"></div><span class="res-title">Model Comparison</span></div><img src="assets/model_comparison.png" alt="Model Comparison"></div>
+    <div class="res-card"><div class="res-card-hdr"><div class="res-dot"></div><span class="res-title">Precision / Recall / F1</span></div><img src="assets/precision_recall_f1.png" alt="PR F1"></div>
+    <div class="res-card"><div class="res-card-hdr"><div class="res-dot"></div><span class="res-title">Grad-CAM — Weed Classes</span></div><img src="assets/gradcam_all_classes.png" alt="Grad-CAM Weed"></div>
+    <div class="res-card"><div class="res-card-hdr"><div class="res-dot" style="background:var(--disease);"></div><span class="res-title">Grad-CAM — Disease Classes</span></div><img src="assets/gradcam_disease.png" alt="Grad-CAM Disease"></div>
+    <div class="res-card"><div class="res-card-hdr"><div class="res-dot"></div><span class="res-title">Dataset Analysis</span></div><img src="assets/dataset_analysis.png" alt="Dataset"></div>
+    <div class="res-card"><div class="res-card-hdr"><div class="res-dot"></div><span class="res-title">Confidence Distribution</span></div><img src="assets/confidence_threshold.png" alt="Confidence"></div>
+  </div>
+</section>
+
+<div class="sec-divider"></div>
+
+<!-- TEAM -->
+<section class="section" id="team">
+  <div class="sec-tag">Team</div>
+  <h2>Project Team</h2>
+  <p class="sec-sub">VIT Bhopal University · BTech CSE · Batch 2022–26</p>
+  <div class="team-wrap">
+    <div class="team-sup">
+      <div class="sup-avatar"><svg viewBox="0 0 24 24" fill="none" stroke="#000" stroke-width="2" stroke-linecap="round"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></div>
+      <div>
+        <span class="sup-badge">Project Supervisor</span>
+        <div class="sup-name">Dr. Vivek Sharma</div>
+        <div class="sup-role">Faculty Supervisor · VIT Bhopal University</div>
+      </div>
+    </div>
+    <div class="team-members">
+      <div class="tmember"><div class="tm-num">01</div><div class="tm-av">YK</div><div class="tm-name">Yash Kashyap</div><div class="tm-reg">22BCE10207</div></div>
+      <div class="tmember"><div class="tm-num">02</div><div class="tm-av">MJ</div><div class="tm-name">M Junaid Beg</div><div class="tm-reg">22BCE10271</div></div>
+      <div class="tmember"><div class="tm-num">03</div><div class="tm-av">AM</div><div class="tm-name">Arin Malviya</div><div class="tm-reg">22BCE10298</div></div>
+      <div class="tmember"><div class="tm-num">04</div><div class="tm-av">PP</div><div class="tm-name">Prakash Pathak</div><div class="tm-reg">22BCE10747</div></div>
+      <div class="tmember"><div class="tm-num">05</div><div class="tm-av">PS</div><div class="tm-name">Prasar Srivastava</div><div class="tm-reg">22BCE10841</div></div>
+    </div>
+    <div class="team-footer">
+      <div class="tf-item"><div class="tf-lbl">University</div><div class="tf-val">VIT Bhopal University</div></div>
+      <div class="tf-item"><div class="tf-lbl">Program</div><div class="tf-val">BTech — CSE</div></div>
+      <div class="tf-item"><div class="tf-lbl">Batch</div><div class="tf-val">2022 — 2026</div></div>
+    </div>
+  </div>
+</section>
+
+<div class="sec-divider"></div>
+
+<footer>
+  <div class="footer-logo">Soy<span>Vision</span> AI</div>
+  <div class="footer-sub">VIT Bhopal University · BTech CSE · Batch 2022–26 · ResNet50 · EfficientNetB0 · ViT · TensorFlow · Flask</div>
+</footer>
+
+<div id="toast"></div>
+
+<script>
+let weedFile=null,diseaseFile=null,wcamStream=null,weedHist=[],diseaseHist=[];
+
+// FILE HANDLER
+function handleFile(f,mode){
+  if(!f)return;
+  if(f.size>10*1024*1024){showToast('File too large. Max 10MB.');return;}
+  if(mode==='weed') weedFile=f;
+  else diseaseFile=f;
+
+  const r=new FileReader();
+  r.onload=e=>{
+    const src=e.target.result;
+    if(mode==='weed'){
+      document.getElementById('prev-img').src=src;
+      document.getElementById('prev-name').textContent=f.name;
+      document.getElementById('dropzone').style.display='none';
+      document.getElementById('prev-wrap').style.display='block';
+      document.getElementById('weedAnalyzeBtn').disabled=false;
+    } else {
+      document.getElementById('d-prev-img').src=src;
+      document.getElementById('d-prev-name').textContent=f.name;
+      document.getElementById('d-dropzone').style.display='none';
+      document.getElementById('d-prev-wrap').style.display='block';
+      document.getElementById('diseaseAnalyzeBtn').disabled=false;
+    }
+  };
+  r.readAsDataURL(f);
+}
+
+function resetUpload(mode){
+  if(mode==='weed'){
+    weedFile=null;
+    document.getElementById('fi').value='';
+    document.getElementById('dropzone').style.display='block';
+    document.getElementById('prev-wrap').style.display='none';
+    document.getElementById('weedAnalyzeBtn').disabled=true;
+    showState('w','placeholder');
+  } else {
+    diseaseFile=null;
+    document.getElementById('dfi').value='';
+    document.getElementById('d-dropzone').style.display='block';
+    document.getElementById('d-prev-wrap').style.display='none';
+    document.getElementById('diseaseAnalyzeBtn').disabled=true;
+    showState('d','placeholder');
+  }
+}
+
+// DRAG DROP - WEED
+const dz=document.getElementById('dropzone');
+dz.addEventListener('dragover',e=>{e.preventDefault();dz.classList.add('over');});
+dz.addEventListener('dragleave',()=>dz.classList.remove('over'));
+dz.addEventListener('drop',e=>{e.preventDefault();dz.classList.remove('over');const f=e.dataTransfer.files[0];if(f&&f.type.startsWith('image/'))handleFile(f,'weed');else showToast('Please drop an image file.');});
+
+// DRAG DROP - DISEASE
+const ddz=document.getElementById('d-dropzone');
+ddz.addEventListener('dragover',e=>{e.preventDefault();ddz.classList.add('over');});
+ddz.addEventListener('dragleave',()=>ddz.classList.remove('over'));
+ddz.addEventListener('drop',e=>{e.preventDefault();ddz.classList.remove('over');const f=e.dataTransfer.files[0];if(f&&f.type.startsWith('image/'))handleFile(f,'disease');else showToast('Please drop an image file.');});
+
+// WEBCAM
+function setMode(m,btn,type){
+  document.querySelectorAll('#classify .mode-btn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  ['upload','webcam','camera'].forEach(id=>{
+    const el=document.getElementById('mode-'+id);
+    if(el)el.style.display=id===m?'block':'none';
+  });
+  if(m!=='webcam'&&wcamStream)stopWcam();
+}
+
+async function startWcam(){
+  try{
+    wcamStream=await navigator.mediaDevices.getUserMedia({video:{facingMode:'user'}});
+    document.getElementById('wcam-video').srcObject=wcamStream;
+    document.getElementById('wcam-wrap').style.display='block';
+  }catch(e){showToast('Camera access denied.');}
+}
+
+function stopWcam(){
+  if(wcamStream){wcamStream.getTracks().forEach(t=>t.stop());wcamStream=null;}
+  document.getElementById('wcam-wrap').style.display='none';
+}
+
+function captureWcam(){
+  const v=document.getElementById('wcam-video');
+  const c=document.createElement('canvas');
+  c.width=224;c.height=224;
+  c.getContext('2d').drawImage(v,0,0,224,224);
+  c.toBlob(b=>{
+    weedFile=new File([b],'webcam.jpg',{type:'image/jpeg'});
+    document.getElementById('weedAnalyzeBtn').disabled=false;
+    runAnalysis('weed');
+  },'image/jpeg',0.95);
+}
+
+// ANALYSIS
+async function runAnalysis(mode){
+  const file=mode==='weed'?weedFile:diseaseFile;
+  if(!file)return;
+  showState(mode==='weed'?'w':'d','loading');
+  const btnId=mode==='weed'?'weedAnalyzeBtn':'diseaseAnalyzeBtn';
+  document.getElementById(btnId).disabled=true;
+  const url=document.getElementById(mode==='weed'?'weedApiUrl':'diseaseApiUrl').value.trim();
+  try{
+    const fd=new FormData();
+    fd.append('file',file);
+    const res=await fetch(url,{method:'POST',body:fd});
+    if(!res.ok)throw new Error('Server error: '+res.status);
+    const data=await res.json();
+    if(data.error)throw new Error(data.error);
+    if(mode==='weed')displayWeedResult(data);
+    else displayDiseaseResult(data);
+  }catch(e){
+    showToast('Error: '+e.message);
+    showState(mode==='weed'?'w':'d','placeholder');
+  }
+  document.getElementById(btnId).disabled=false;
+}
+
+// WEED RESULT
+function displayWeedResult(d){
+  showState('w','result');
+  const cls=d.predicted_class;
+  const conf=d.confidence;
+  document.getElementById('w-cls').textContent=cls.charAt(0).toUpperCase()+cls.slice(1);
+  document.getElementById('w-pct').textContent=conf.toFixed(1)+'%';
+  if(d.preview){document.getElementById('prev-img').src='data:image/jpeg;base64,'+d.preview;document.getElementById('prev-wrap').style.display='block';document.getElementById('dropzone').style.display='none';}
+  document.getElementById('w-ubox').style.display=d.is_uncertain?'block':'none';
+  const bar=document.getElementById('w-bar');
+  const badge=document.getElementById('w-badge');
+  bar.style.width='0%';bar.className='conf-bar';badge.className='cbadge';
+  setTimeout(()=>{
+    bar.style.width=conf+'%';
+    if(conf>=85){bar.classList.add('bar-h');badge.classList.add('cbadge-h');badge.textContent='High Confidence';}
+    else if(conf>=70){bar.classList.add('bar-m');badge.classList.add('cbadge-m');badge.textContent='Medium Confidence';}
+    else{bar.classList.add('bar-l');badge.classList.add('cbadge-l');badge.textContent='Low Confidence';}
+  },80);
+  const pc=document.getElementById('w-preds');pc.innerHTML='';
+  const mx=Math.max(...d.all_predictions.map(p=>p.confidence));
+  d.all_predictions.forEach((p,i)=>{
+    const row=document.createElement('div');row.className='pred-row';
+    const w=(p.confidence/mx*100).toFixed(1);
+    row.innerHTML=`<span class="pred-name">${p.class}</span><div class="pred-track"><div class="pred-fill ${i===0?'pred-fill-top':'pred-fill-rest'}" data-w="${w}" style="width:0%"></div></div><span class="pred-pct">${p.confidence.toFixed(1)}%</span>`;
+    pc.appendChild(row);
+  });
+  setTimeout(()=>{pc.querySelectorAll('.pred-fill').forEach(b=>b.style.width=b.dataset.w+'%');},100);
+  const tm={soybean:'Crop',broadleaf:'Weed',grass:'Weed',soil:'Bare Soil',Uncertain:'Unknown'};
+  const rm={soybean:'None',broadleaf:'High',grass:'Medium',soil:'None',Uncertain:'Unknown'};
+  const am={soybean:'Monitor',broadleaf:'Apply Herbicide',grass:'Apply Herbicide',soil:'Cover Crop',Uncertain:'Retake Image'};
+  document.getElementById('w-type').textContent=tm[cls]||cls;
+  document.getElementById('w-risk').textContent=rm[cls]||'—';
+  document.getElementById('w-act').textContent=am[cls]||'—';
+  document.getElementById('w-rec').textContent=d.recommendation||'—';
+  if(d.gradcam){
+    document.getElementById('w-gc-orig').src='data:image/jpeg;base64,'+d.gradcam.original;
+    document.getElementById('w-gc-heat').src='data:image/jpeg;base64,'+d.gradcam.heatmap;
+    document.getElementById('w-gc-over').src='data:image/jpeg;base64,'+d.gradcam.overlay;
+  }
+  addHistory('weed',cls,conf);
+}
+
+// DISEASE RESULT
+function displayDiseaseResult(d){
+  showState('d','result');
+  const cls=d.predicted_class;
+  const conf=d.confidence;
+  document.getElementById('d-cls').textContent=cls;
+  document.getElementById('d-pct').textContent=conf.toFixed(1)+'%';
+  if(d.preview){document.getElementById('d-prev-img').src='data:image/jpeg;base64,'+d.preview;document.getElementById('d-prev-wrap').style.display='block';document.getElementById('d-dropzone').style.display='none';}
+  document.getElementById('d-ubox').style.display=d.is_uncertain?'block':'none';
+  const bar=document.getElementById('d-bar');
+  bar.style.width='0%';
+  setTimeout(()=>{bar.style.width=conf+'%';},80);
+  const badge=document.getElementById('d-badge');
+  badge.textContent=conf>=80?'High Confidence':conf>=60?'Medium Confidence':'Low Confidence';
+  const pc=document.getElementById('d-preds');pc.innerHTML='';
+  const mx=Math.max(...d.all_predictions.map(p=>p.confidence));
+  d.all_predictions.forEach((p,i)=>{
+    const row=document.createElement('div');row.className='pred-row';
+    const w=(p.confidence/mx*100).toFixed(1);
+    row.innerHTML=`<span class="pred-name">${p.class}</span><div class="pred-track"><div class="pred-fill ${i===0?'pred-fill-top-d':'pred-fill-rest'}" data-w="${w}" style="width:0%"></div></div><span class="pred-pct">${p.confidence.toFixed(1)}%</span>`;
+    pc.appendChild(row);
+  });
+  setTimeout(()=>{pc.querySelectorAll('.pred-fill').forEach(b=>b.style.width=b.dataset.w+'%');},100);
+  const severity={
+    'Bacterial Pustule':'Moderate','Frogeye Leaf Spot':'Moderate',
+    'Healty':'None','Rust':'High','Sudden Death Syndrome':'Severe',
+    'Target Leaf Spot':'Moderate','Yellow Mosaic':'High','Uncertain':'Unknown'
+  };
+  const treatment={
+    'Bacterial Pustule':'Copper Bactericide','Frogeye Leaf Spot':'Fungicide',
+    'Healty':'No Treatment','Rust':'Triazole Fungicide','Sudden Death Syndrome':'Soil Treatment',
+    'Target Leaf Spot':'Fungicide','Yellow Mosaic':'Remove Plant','Uncertain':'Consult Expert'
+  };
+  document.getElementById('d-type').textContent=cls==='Healty'?'Healthy Leaf':'Diseased Leaf';
+  document.getElementById('d-severity').textContent=severity[cls]||'—';
+  document.getElementById('d-treatment').textContent=treatment[cls]||'—';
+  document.getElementById('d-rec').textContent=d.recommendation||'—';
+  if(d.gradcam){
+    document.getElementById('d-gc-orig').src='data:image/jpeg;base64,'+d.gradcam.original;
+    document.getElementById('d-gc-heat').src='data:image/jpeg;base64,'+d.gradcam.heatmap;
+    document.getElementById('d-gc-over').src='data:image/jpeg;base64,'+d.gradcam.overlay;
+  }
+  addHistory('disease',cls,conf);
+}
+
+function addHistory(type,cls,conf){
+  const now=new Date();
+  const t=now.getHours().toString().padStart(2,'0')+':'+now.getMinutes().toString().padStart(2,'0');
+  const hist=type==='weed'?weedHist:diseaseHist;
+  const file=type==='weed'?weedFile:diseaseFile;
+  hist.unshift({t,f:file?file.name.substring(0,15):'—',cls,conf});
+  if(hist.length>10)hist.pop();
+  const tb=document.getElementById(type==='weed'?'w-hist':'d-hist');
+  tb.innerHTML='';
+  hist.forEach(h=>{
+    const tr=document.createElement('tr');
+    const color=type==='weed'?'var(--accent)':'var(--disease)';
+    tr.innerHTML=`<td>${h.t}</td><td>${h.f}</td><td style="color:${color}">${h.cls}</td><td>${h.conf.toFixed(1)}%</td>`;
+    tb.appendChild(tr);
+  });
+}
+
+function showState(prefix,s){
+  document.getElementById(prefix+'-placeholder').style.display=s==='placeholder'?'flex':'none';
+  document.getElementById(prefix+'-loading').style.display=s==='loading'?'block':'none';
+  document.getElementById(prefix+'-result').style.display=s==='result'?'block':'none';
+}
+
+function showToast(msg){
+  const t=document.getElementById('toast');
+  t.textContent=msg;t.classList.add('show');
+  setTimeout(()=>t.classList.remove('show'),3500);
+}
+</script>
+</body>
+</html>
